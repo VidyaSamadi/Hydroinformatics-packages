@@ -1,0 +1,9 @@
+* Project:       Borkhar
+* File content:  irrigation data
+* File name:     result.irg
+* Model version: swap_3_0_3 Majid
+* Generated at:  03-Jun-2013 10:03:05
+        CROPNAME        DATE DCROP  DCUM  IDEPTH(CM)
+<==============><==========><====><====><==========>
+bare soil        05-Jul-2005     0     3        16.0
+Maize            13-Jul-2005     4    11        16.0

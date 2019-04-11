@@ -1,0 +1,1335 @@
+* Project:       swap
+* File content:  Main input variables
+* File name:     swap.swp
+* Model version: swap_3_0_3 Majid
+* Generated at:  03-Jun-2013 10:03:05
+ 
+ Data file   SWAP.SWP with 216 variables parsed by RDINDX
+*----------------------------------------------------------------------*
+ Echo of input file:
+
+*----------------------------------------------------------------------*
+* Contents of input file: swap.swp                                     *
+*----------------------------------------------------------------------*
+
+**********************************************************************************
+* Filename: ghiam_c.swp
+* Contents: SWAP 3 - Main input data
+**********************************************************************************
+* Comment area:
+*
+* Case: Water and solute transport in the Borkhar area,
+*       a catchment in the eastern part of the Netherlands
+*
+*       This case is described as example in the User's Guide
+**********************************************************************************
+ 
+*   The main input file .swp contains the following sections:
+*           - General section
+*           - Meteorology section
+*           - Crop section
+*           - Soil water section
+*           - Lateral drainage section
+*           - Bottom boundary section
+*           - Heat flow section
+*           - Solute transport section
+ 
+ 
+*** GENERAL SECTION ***
+ 
+**********************************************************************************
+* Part 1: Environment
+ 
+  PROJECT   = 'Borkhar'             ! Project description, [A80]
+  PATHWORK  = ' '                  ! Path to work directory, [A80]
+  PATHATM   = '.\Weather\'      ! Path to directory with weather files, [A80]
+  PATHCROP  = '.\Crops\'        ! Path to directory with crop files, [A80]
+  PATHDRAIN = ' '     ! Path to directory with drainage files, [A80]
+  SWSCRE    = 1          ! Switch, display progression of simulation run:
+                         !   SWSCRE = 0:  no display to screen
+                         !   SWSCRE = 1:  display waterbalance to screen
+                         !   SWSCRE = 2:  display daynumber to screen
+  SWERROR   = 1  ! Switch for printing errors to screen [Y=1, N=0]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 2: Simulation period
+*
+  TSTART  = 03-Jul-2005 ! Start date of simulation run, give day-month-year, [dd-mmm-yyyy]
+  TEND    = 31-oct-2005 ! End   date of simulation run, give day-month-year, [dd-mmm-yyyy]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 3: Output dates
+ 
+* Output times for water and solute balances
+  SWYRVAR = 1         ! Switch, output at fixed or variable dates:
+                      ! SWYRVAR = 0: each year output of balances at the same date
+                      ! SWYRVAR = 1: output of balances at different dates
+ 
+* If SWYRVAR = 0 specify fixed date:
+  DATEFIX = 31 12     ! Specify day and month for output of yearly balances, [dd mm]
+ 
+* If SWYRVAR = 1 specify all output dates [dd-mmm-yyyy], maximum MAOUT dates:
+  OUTDAT =
+22-Jul-2005
+13-Aug-2005
+27-Aug-2005
+10-Sep-2005
+17-sep-2005
+24-sep-2005
+01-oct-2005
+08-oct-2005
+15-oct-2005
+22-oct-2005
+* End of table
+ 
+* Dates for intermediate output of state variables and fluxes
+  SWMONTH = 0         ! Switch, output each month, [Y=1, N=0]
+  PERIOD = 0          ! Fixed output interval, ignore = 0, [0..366, I]
+  SWRES  = 0          ! Switch, reset output interval counter each year, [Y=1, N=0]
+  SWODAT = 1          ! Switch, extra output dates are given in table, [Y=1, N=0]
+ 
+* If SWODAT = 1, specify all intermediate output dates [dd-mmm-yyyy],
+* maximum MAOUT dates:
+ 
+  OUTDATINT =
+22-Jul-2005
+13-Aug-2005
+27-Aug-2005
+10-Sep-2005
+17-sep-2005
+24-sep-2005
+01-oct-2005
+08-oct-2005
+15-oct-2005
+22-oct-2005
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 4: Output files
+ 
+  OUTFIL   = 'result' ! Generic file name of output files, [A16]
+  SWHEADER = 0        ! Print header of each balance period, [Y=1, N=0]
+ 
+* Optional output files for water quality models or other specific use
+ 
+  SWAFO  = 0        ! Switch, output file with formatted hydrological data
+                    ! SWAFO = 0: no output
+                    ! SWAFO = 1: output to a file named *.AFO
+                    ! SWAFO = 2: output to a file named *.BFO
+ 
+  SWAUN  = 0        ! Switch, output file with unformatted hydrological data
+                    ! SWAUN = 0: no output
+                    ! SWAUN = 1: output to a file named *.AUN
+                    ! SWAUN = 2: output to a file named *.BUN
+ 
+* if SWAFO = 1 or 2,   or if SWAUN = 1 or 2 then specify SWDISCRVERT and  CritDevMasBalAbs
+  SWDISCRVERT = 0   ! Switch to convert vertical discretization   [Y=1, N=0]
+                    !   only when SWAUN=1 or SWAFO=1 the generated output
+                    !   files (*.afo,*.bfo,*.aun,*.bun) are influenced
+                    ! SWDISCRVERT = 0: no conversion
+                    ! SWDISCRVERT = 1: convert vertical discretization,
+                    !                  numnodNew and dzNew are required
+* Critical Absolute Deviation in water balance
+* (when exceeded: simulation continues, but file with errors is created (file-extension *.DWB))
+  CritDevMasBalAbs = 0.1  ! Critical Absolute Deviation in water balance [1.0d-30..1.0 cm, R]
+*
+* Only If SWDISCRVERT = 1 then numnodNew and dzNew are required
+*  NUMNODNEW = 6    ! New number of nodes [1...macp,I,-]
+*                   ! (boundaries of soil layers may not change, which implies
+*                   !  that the sum of thicknesses within a soil layer must be
+*                   !  equal to the thickness of the soil layer.  See also:
+*                   !  SoilWaterSection, Part4: Vertical discretization of soil profile)
+*  DZNEW = 10.0 10.0 10.0 20.0 30.0 50.0 ! thickness of compartments [1.0d-6...5.0d2, cm, R]
+*
+*
+  SWVAP  = 1        ! Switch, output profiles of moisture, solute and temperature, [Y=1, N=0]
+  SWATE  = 0        ! Switch, output file with soil temperature profiles, [Y=1, N=0]
+  SWBLC  = 0        ! Switch, output file with detailed yearly water balance, [Y=1, N=0]
+ 
+* Required only when SWMACRO= 1 or 2 (see Soil Water section, Part 10: macropore flow)
+  SWBMA  = 0        ! Switch, output file with detailed yearly water balance Macropores, [Y=1, N=0]
+ 
+* Required only when SWDRA=2 (see lateral section): input of SWDRF and SWSWB
+  SWDRF  = 1        ! Switch, output drainage fluxes, only for extended drainage, [Y=1, N=0]
+  SWSWB  = 1        ! Switch, output surface water reservoir, only for extended drainage, [Y=1, N=0]
+**********************************************************************************
+ 
+ 
+*** METEOROLOGY SECTION ***
+ 
+**********************************************************************************
+* General data
+ 
+  METFIL = 'borkhar' ! File name of meteorological data without extension .YYY, [A16]
+                        ! Extension equals last 3 digits of year number, e.g. 2003 has extension .003
+  SWETR  =  0           ! Switch, use reference ET values of meteo file [Y=1, N=0]
+ 
+* If SWETR = 0, then LAT,ALT and ALTW must have realistic values
+  LAT    =   32.75       ! Latitude of meteo station, [-60..60 degrees, R, North = +]
+  ALT    =   1543.00               ! Altitude of meteo station, [-400..3000 m, R]
+  ALTW   =    2.0       ! Altitude of wind speed measurement (10 m is default) [0..99 m, R]
+*
+  SWRAIN =  0           ! Switch for use of actual rainfall intensity:
+                        ! SWRAIN = 0: Use daily rainfall amounts
+                        ! SWRAIN = 1: Use daily rainfall amounts + mean intensity
+                        ! SWRAIN = 2: Use daily rainfall amounts + duration
+ 
+* If SWRAIN = 1, then specify mean rainfall intensity RAINFLUX [0.d0..1000.d0 cm/d, R]
+* as function of time TIME [0..366 d, R], maximum 30 records
+ 
+   TIME    RAINFLUX
+    1.0         2.0
+  360.0         2.0
+* End of table
+**********************************************************************************
+ 
+ 
+*** CROP SECTION ***
+ 
+**********************************************************************************
+* Part 1: Crop rotation scheme during simulation period
+ 
+* Specify information for each crop (maximum MACROP):
+* CROPSTART = date of crop emergence, [dd-mmm-yyyy]
+* CROPEND = date of crop harvest, [dd-mmm-yyyy]
+* CROPNAME = crop name, [A16]
+* CROPFIL = name of file with crop input parameters without extension .CRP, [A16]
+* CROPTYPE = type of crop model: simple = 1, detailed general = 2, detailed grass = 3
+ 
+  CROPSTART      CROPEND       CROPNAME   CROPFIL     CROPTYPE
+  10-Jul-2005    10-oct-2005   'Maize'    'Maizes_ghiam'     1
+ 
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 2: Fixed irrigation applications
+ 
+  SWIRFIX = 1   ! Switch for fixed irrigation applications
+                 ! SWIRFIX = 0: no irrigation applications are prescribed
+                 ! SWIRFIX = 1: irrigation applications are prescribed
+ 
+* If SWIRFIX = 1:
+ 
+  SWIRGFIL  = 0  ! Switch for file with fixed irrigation applications:
+                 ! SWIRGFIL = 0: data are specified in the .swp file
+                 ! SWIRGFIL = 1: data are specified in a separate file
+ 
+* If SWIRGFIL  = 0 specify information for each fixed irrigation event (max. MAIRG):
+* IRDATE   = date of irrigation, [dd-mmm-yyyy]
+* IRDEPTH  = amount of water, [0.0..100.0 cm, R]
+* IRCONC   = concentration of irrigation water, [0.0..1000.0 mg/cm3, R]
+* IRTYPE   = type of irrigation: sprinkling = 0, surface = 1
+ 
+      IRDATE   IRDEPTH     IRCONC   IRTYPE
+ 5-Jul-2005    16.0000            1000.0        1
+ 13-Jul-2005   16.0000            1000.0        1
+ 6-Aug-2005    16.0000            1000.0        1
+ 20-Aug-2005   16.0000            1000.0        1
+ 30-Aug-2005   16.0000            1000.0        1
+ 9-Sep-2005    16.0000            1000.0        1
+ 21-Sep-2005   16.0000            1000.0        1
+ 30-Sep-2005   16.0000            1000.0        1
+ 13-Oct-2005   16.0000            1000.0        1
+ 
+* --- end of table
+ 
+* If SWIRGFIL  = 1 specify name of file with data of fixed irrigation applications:
+  IRGFIL = 'testirri'      ! File name without extension .IRG [A16]
+**********************************************************************************
+ 
+ 
+*** SOIL WATER SECTION ***
+ 
+**********************************************************************************
+* Part 1: Initial moisture condition
+ 
+ SWINCO = 0 ! Switch, type of initial moisture condition:
+            ! 0 = water content as function of depth is input
+            ! 1 = pressure head as function of depth is input
+            ! 2 = pressure head of each compartment is in hydrostatic equilibrium
+            !     with initial groundwater level
+            ! 3 = read final pressure heads from previous Swap simulation
+ 
+* If SWINCO = 0, specify initial water content THETA [-1.d10..1.d4 cm, R] as function of
+* soil depth ZT [-10000..0 cm, R], maximum MACP data pairs:
+     ZT       THETA
+  -7.5          0.1
+  -22.5         0.1
+  -45.0         0.15
+  -75.0         0.15
+  -120.0        0.15
+ 
+* End of table
+ 
+* If SWINCO = 1, specify initial pressure head  H [-1.d10..1.d4 cm, R] as function of
+* soil depth ZI [-10000..0 cm, R], maximum MACP data pairs:
+      ZI         H
+   -0.5     -92.831
+ -195.0      99.591
+* End of table
+ 
+* If SWINCO = 2, specify:
+  GWLI   = -150.0  ! Initial groundwater level, [-10000..100 cm, R]
+ 
+* If SWINCO = 3, specify:
+  INIFIL = 'result.end'   ! name of final with extension .END [a200]
+ 
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 2: Ponding, Runoff and Runon
+*
+ PONDMX  = 5.0  ! Maximum thickness of ponding water layer, [0..1000 cm, R]
+*
+ RSRO    =  0.5 ! drainage Resistance of Surface RunOff [0.001..1.0 d, R]
+ RSROEXP =  1.0 ! exponent in relation of surface runoff [0.1....10.0, R]
+*
+*
+* Specify whether runon from external source (fiel) should be included
+*
+  SWRUNON = 0  ! Switch, input of runon:
+             ! 0 = No input of runon
+             ! 1 = runon as input
+*
+* If SWRUNON = 1 specify name of file with runon input data
+*          - this file may be an output-*.inc-file (with only 1 header) of previous Swap-simulation):
+*          - from this file 2 columns are read, with column-headers  'date' and 'Runoff'
+*          - the column 'date' must have dates that correpond to the current simulation period (dates are compared)
+  RUFIL = 'runon.inc' ! File name (with extension) with input data, must have extension (e.g..INC) [A80]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 3: Soil evaporation
+*
+  SWCFBS = 0   ! Switch for use of coefficient CFBS for soil evaporation [Y=1, N=0]
+               ! 0 = CFBS is not used
+               ! 1 = CFBS used to calculate potential evaporation from potential
+               !     evapotranspiration or reference evapotranspiration
+ 
+* If SWCFBS = 1, specify coefficient CFBS:
+  CFBS   = 1.0 ! Coefficient for potential soil evaporation, [0.5..1.5 -, R]
+ 
+  SWREDU = 1   ! Switch, method for reduction of potential soil evaporation:
+               ! 0 = reduction to maximum Darcy flux
+               ! 1 = reduction to maximum Darcy flux and to maximum Black (1969)
+               ! 2 = reduction to maximum Darcy flux and to maximum Bo/Str. (1986)
+ 
+ COFRED = 0.35 ! Soil evaporation coefficient of Black, [0..1 cm/d1/2, R],
+! or Boesten/Stroosnijder, [0..1 cm1/2, R]
+ RSIGNI =  0.5 ! Minimum rainfall to reset models Black and Bo/Str., [0..1 cm/d, R]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 4: Vertical discretization of soil profile
+ 
+* Specify the following data (maximum MACP lines):
+* ISOILLAY = number of soil layer, start with 1 at soil surface, [1..MAHO, I]
+* ISUBLAY  = number of sub layer, start with 1 at soil surface, [1..MACP, I]
+* HSUBLAY  = height of sub layer, [0.0..1000.0 cm, R]
+* HCOMP    = height of compartments in this layer, [0.0..1000.0 cm, R]
+* NCOMP    = number of compartments in this layer (= HSUBLAY/HCOMP), [1..MACP, I]
+ 
+  ISOILLAY ISUBLAY  HSUBLAY    HCOMP    NCOMP
+     1      1       5.0       0.2       25
+     1      2       15.0      1.0       15
+     1      3       30.0      2.5       12
+     1      4       30.0      5.0       6
+     1      5       40.0      5.0       8
+* --- end of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 5: Soil hydraulic functions
+ 
+* Specify for each soil layer (maximum MAHO):
+* ISOILLAY1 = number of soil layer, as defined in part 4 [1..MAHO, I]
+* ORES   = Residual water content, [0..0.4 cm3/cm3, R]
+* OSAT   = Saturated water content, [0..0.95 cm3/cm3, R]
+* ALFA   = Shape parameter alfa of main drying curve, [0.0001..1 /cm, R]
+* NPAR   = Shape parameter n, [1..4 -, R]
+* KSAT   = Saturated vertical hydraulic conductivity, [1.d-5..1000 cm/d, R]
+* LEXP   = Exponent in hydraulic conductivity function, [-25..25 -, R]
+* ALFAW  = Alfa parameter of main wetting curve in case of hysteresis, [0.0001..1 /cm, R]
+ 
+  ISOILLAY1  ORES    OSAT      ALFA    NPAR     KSAT      LEXP    ALFAW
+         1   0.088 0.473    0.020    1.40    9.00    -1.96   0.02860
+* --- end of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 6: Hysteresis of soil water retention function
+ 
+  SWHYST = 0   ! Switch for hysteresis:
+               ! 0 = no hysteresis
+               ! 1 = hysteresis, initial condition wetting
+               ! 2 = hysteresis, initial condition drying
+ 
+* If SWHYST = 1 or 2, specify:
+  TAU = 0.2    ! Minimum pressure head difference to change wetting-drying, [0..1 cm, R]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 7: Maximum rooting depth
+ 
+  RDS  = 120.0   ! Maximum rooting depth allowed by the soil profile, [1..5000 cm, R]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 8: Similar media scaling of soil hydraulic functions
+ 
+  SWSCAL = 0 ! Switch for similar media scaling [Y=1, N=0]; no hysteresis is allowed
+             ! in case of similar media scaling (SWHYST = 0)
+ 
+* If SWSCAL = 1, specify:
+  NSCALE = 3 ! Number of simulation runs, [1..MASCALE, I]
+ 
+* Supply the scaling factors for each simulation run and each soil layer:
+ 
+  RUN     SOIL1        SOIL2
+   1       0.5          2.0
+   2       1.0          1.0
+   3       2.0          0.5
+   4       1.0          1.0
+   5       3.0          3.0
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 9: Preferential flow due to water repellency
+ 
+  SWMOBI = 0  ! Switch for preferential flow due to immobile water, [Y=1, N=0]; hysteresis
+              ! or scaling are not allowed in case of preferential flow (SWHYST = 0; SWSCAL = 0)
+ 
+* If SWMOBI = 1, specify mobile fraction as function of log -h for each soil layer:
+*
+* ISOILLAY2 = number of soil layer, as defined in part 4 [1..MAHO, I]
+* PF1    = first datapoint,  log -h (cm), [0..5, R]
+* FM1    = first datapoint,  mobile fraction (1.0 = totally mobile), [0..1, R]
+* PF2    = second datapoint, log -h (cm), [0..5, R]
+* FM2    = second datapoint, mobile fraction (1.0 = totally mobile), [0..1, R]
+* THETIM = specify volumetric water content in immobile soil volume, [0..0.3, R]
+ 
+  ISOILLAY2    PF1    FM1    PF2    FM2   THETIM
+      1        0.0    0.4    3.0    0.4    0.02
+      2        0.0    1.0    3.0    1.0    0.02
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 10: Preferential flow due to macropores
+  SWMACRO = 0     ! Switch for macropore flow, [0..2, I]:
+                  ! 0 = no macropore flow
+                  ! 1 = simple macropore flow
+                  ! 2 = advanced macropore flow
+ 
+* If SWMACRO = 1, specify parameters for simple macropore flow:
+  SHRINA = 0.53   ! Void ratio at zero water content, [0..2 cm3/cm3, R]
+  MOISR1 = 1.0    ! Moisture ratio at trans. residual --> normal shrinkage [0..5 cm3/cm3, R]
+  MOISRD = 0.01   ! Amount of structural shrinkage, [0..1 cm3/cm3, R]
+  ZNCRACK = -5.0  ! Depth at which crack area of soil surface is calculated [-100..0 cm, R]
+  GEOMF = 3.0     ! Geometry factor (3 = isotropic shrinkage), [0..100, R]
+  DIAMPOL = 40.0  ! Diameter soil matrix polygon, [0..100 cm, R]
+  RAPCOEF = 10.1  ! Rate coef. bypass flow from cracks to surface water [0..10000 /d, R]
+  DIFDES = 0.2    ! Effective lateral solute diffusion coefficient, [0..10000 /cm, R]
+* critical water content of each soil layer (max. MAHO), [0..1, R];
+* if actual water becomes smaller than critical water content, cracks are formed
+  THETCR = 0.49  0.40  0.38 0.38  0.38 0.39  0.39
+ 
+* End of input for simple macropore flow, advance to next part
+ 
+* If SWMACRO = 2, specify parameters for advanced macropore flow:
+  Z_AH = -35.0    ! Depth bottom A-horizon [-1000..0 cm, R]
+  Z_IC = -70.0    ! Depth bottom Internal Catchment (IC) domain [-1000..0 cm, R]
+  Z_ST = -35.0    ! Depth bottom Static macropores [-1000..0 cm, R]
+  VLMPSTSS = 0.05 ! Volume of Static Macropores at Soil Surface [0..1 cm3/cm3, R]
+  PPICSS = 0.5    ! Proportion of IC domain at Soil Surface [0..1 -, R]
+  NUMSBDM = 5     ! Number of Subdomains in IC domain [0..MaDm -, I]
+  POWM = 1.0      ! Power M for frequency distribut. curve IC domain (OPTIONAL, default 1.0) [0..100 -, R]
+  RZAH = 0.0      ! Fraction macropores ended at bottom A-horizon [OPTIONAL, default 0.0] [0..1 -, R]
+  SPOINT = 1.0    ! Symmetry Point for freq. distr. curve [OPTIONAL, default 1.0] [0..1 -, R]
+  SWPOWM = 0      ! Switch for double convex/concave freq. distr. curve (OPTIONAL, Y=1, N=0; default: 0) [0..1 -, I]
+  DIPOMI = 10.0   ! Minimal diameter soil polygones (shallow) [0.1..1000 cm, R]
+  DIPOMA = 50.0   ! Maximal diameter soil polygones (deep)    [0.1..1000 cm, R]
+ 
+*Start of Tabel with shrinkage characteristics
+* ISOILLAY3 = number of soil layer, as defined in part 4 [1..MAHO, I]
+* SWSoilShr = Switch for kind of soil for determining shrinkage curve: 0 = rigid soil, 1 = clay, 2 peat [0..2 -, I]
+* SWSoilShr = Switch for determining shrinkage curve [1..2 -, I]:  1 = parameters for curve are given;
+*                                                                  2 = typical points of curve are given
+* GeomFac   =  Geometry factor (3 = isotropic shrinkage), [0..100, R]
+* ShrParA to ShrParE = parameters for describing shrinkage curves,
+*                      depending on combination of SWSoilShr and SwShrInp [-1000..1000, R]:
+*                      SWSoilShr = 0                : 0 variables required (all dummies)
+*                      SWSoilShr = 1,  SwShrInp 1 = : 3 variables required (ShrParA to ShrParC) (rest dummies)
+*                      SWSoilShr = 1,  SwShrInp 2 = : 2 variables required (ShrParA to ShrParB) (rest dummies)
+*                      SWSoilShr = 2,  SwShrInp 1 = : 4 variables required (ShrParA to ShrParD) (rest dummies)
+*                      SWSoilShr = 2,  SwShrInp 2 = : 5 variables required (ShrParA to ShrParE)
+  ISOILLAY3  SWSoilShr  SwShrInp  ThetCrMP  GeomFac ShrParA ShrParB ShrParC ShrParD ShrParE
+       1        1          2        0.41      3.0    0.343   0.520   0.0      0.0     0.0
+       2        1          2        0.40      3.0    0.343   0.520   0.0      0.0     0.0
+       3        1          2        0.38      3.0    0.415   0.642   0.0      0.0     0.0
+       4        1          2        0.38      3.0    0.400   0.659   0.0      0.0     0.0
+       5        1          2        0.38      3.0    0.412   0.650   0.0      0.0     0.0
+       6        1          2        0.39      3.0    0.406   0.700   0.0      0.0     0.0
+       7        1          2        0.39      3.0    0.496   0.700   0.0      0.0     0.0
+*End of Tabel with shrinkage characteristics
+ 
+ ZnCrAr = -5.0  ! Depth at which crack area of soil surface is calculated [-100..0 cm, R]
+ 
+*Start of Tabel with sorptivity characteristics
+* ISOILLAY4   = number of soil layer, as defined in part 4 [1..MAHO, I]
+* SWSorp      = Switch for kind of sorptivity function [1..2 -, I]:
+*               1 = calculated from hydraulic functions according to Parlange
+*               2 = emperical function from measurements
+* SorpFacParl = factor for modifying Parlange function (OPTIONAL, default 1.0) [0..100 -, R]
+* SorpMax     = maximal sorptivity at theta residual [0..100 cm/d**0.5, R]
+* SorpAlfa    = fitting parameter for emperical sorptivity curve [-10..10 -, R]
+  ISOILLAY4  SwSorp   SorpFacParl  SorpMax  SorpAlfa
+       1        2         1.0        5.0       0.5
+       2        2         1.0        5.0       0.5
+       3        2         1.0        5.0       0.5
+       4        2         1.0        5.0       0.5
+       5        2         1.0        5.0       0.5
+       6        2         1.0        5.0       0.5
+       7        2         1.0        5.0       0.5
+*End of Tabel with sorptivity characteristics
+ 
+ SwDrRap = 1   ! Switch for kind of drainage function TEMPORARY: TEST option [1..2 -, I]:
+ RapDraResRef = 1 * 0.1  ! Reference rapid drainage resistance [0..10000 /d, R]
+                          ! an array with a single element must be indicated using a multiplier asterix
+                          ! (see TTUTIL-manual, par. 5.2  Defining arrays)
+ RapDraReaCof = 2.0 ! reaction coefficient for rapid drainage [0..100 -, R]
+ 
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 11: Snow and frost
+*
+  SWSNOW = 0   ! Switch, calculate snow accumulation and melt. [Y=1, N=0]
+*
+* If SWSNOW = 1, then specify initial snow water equivalent and snowmelt factor
+  SNOWINCO = 22.0      ! the initial SWE (Snow Water Equivalent), [0.0...1000.0 cm, R]
+  SNOWCOEF = 0.3       ! calibration factor for snowmelt, [0.0...10.0 -, R]
+*
+  SWFROST = 0  ! Switch, in case of frost: stop soil water flow, [Y=1, N=0]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 12 Numerical solution of Richards' equation
+*
+ DTMIN     = 0.00001  ! Minimum timestep, [1.d-8..0.1 d, R]
+ DTMAX     =  0.01  ! Maximum timestep, [ 0.01..0.5 d, R]
+ THETOL    =  0.001  ! Maximum dif. water content between iterations, [1.d-5..0.01 cm3/cm3, R]
+ GWLCONV   =  100.0  ! Maximum dif. groundwater level between iterations, [1.d-5..1000 cm, R]
+ CritDevMasBalDt = 0.01  ! Critical Deviation in water balance of timestep [1.0d-5..100.0 cm, R]
+ MSTEPS    = 50000  ! Maximum number of iteration steps to solve Richards', [ 2..100000 -, I]
+ SWBALANCE =     0   ! Switch to allow compensation of water balance, [Y=1, N=0]
+*             (use of SWBALANCE=1 is not recommended in this version, not tested yet !)
+**********************************************************************************
+ 
+ 
+*** LATERAL DRAINAGE SECTION ***
+ 
+**********************************************************************************
+* Specify whether lateral drainage to surface water should be included
+*
+  SWDRA = 0  ! Switch, simulation of lateral drainage:
+             ! 0 = No simulation of drainage
+             ! 1 = Simulation with basic drainage routine
+             ! 2 = Simulation with extended drainage routine (includes surface water management)
+ 
+* If SWDRA = 1 or SWDRA = 2 specify name of file with drainage input data:
+  DRFIL = 'Hupsel' ! File name with drainage input data without extension .DRA, [A16]
+*
+**********************************************************************************
+ 
+ 
+*** BOTTOM BOUNDARY SECTION ***
+ 
+**********************************************************************************
+* Bottom boundary condition
+ 
+  SWBBCFILE  = 0    ! Switch for file with bottom boundary conditions:
+                    ! SWBBCFILE = 0: data are specified in the .swp file
+                    ! SWBBCFILE = 1: data are specified in a separate file
+ 
+* If SWBBCFILE = 1 specify name of file with bottom boundary conditions:
+  BBCFIL = ' '      ! File name without extension .BBC [A16]
+ 
+* If SWBBCFILE = 0, select one of the following options:
+             ! 1  Prescribe groundwater level
+             ! 2  Prescribe bottom flux
+             ! 3  Calculate bottom flux from hydraulic head of deep aquifer
+             ! 4  Calculate bottom flux as function of groundwater level
+             ! 5  Prescribe soil water pressure head of bottom compartment
+             ! 6  Bottom flux equals zero
+             ! 7  Free drainage of soil profile
+             ! 8  Free outflow at soil-air interface
+ 
+ SWBOTB = 7  ! Switch for bottom boundary [1..8,-,I]
+ 
+* Options 1,2,3,4,and 5 require additional data as specified below!
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* SWBOTB = 1  Prescribe groundwater level
+ 
+* specify DATE [dd-mmm-yyyy] and groundwater level [cm, -10000..1000, R]
+ 
+        DATE1    GWLEVEL         ! (max. MABBC records)
+  01-jan-1981     -95.0
+  31-dec-1983     -95.0
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* SWBOTB = 2   Prescribe bottom flux
+ 
+* Specify whether a sine or a table are used to prescribe the bottom flux:
+  SW2    = 2      ! Sine function = 1,  table = 2
+ 
+* In case of sine function (SW2 = 1), specify:
+  SINAVE =  0.1   ! Average value of bottom flux, [-10..10 cm/d, R, + = upwards]
+  SINAMP =  0.05  ! Amplitude of bottom flux sine function, [-10..10 cm/d, R]
+  SINMAX =  91.0  ! Time of the year with maximum bottom flux, [1..366 d, R]
+ 
+* In case of table (SW2 = 2), specify date [dd-mmm-yyyy] and bottom flux QBOT2
+* [-100..100 cm/d, R, positive = upwards]:
+ 
+        DATE2     QBOT2           ! (maximum MABBC records)
+  01-jan-1980       0.1
+  30-jun-1980       0.2
+  23-dec-1980      0.15
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* SWBOTB = 3    Calculate bottom flux from hydraulic head in deep aquifer
+ 
+* Specify:
+  SHAPE  =   0.79  ! Shape factor to derive average groundwater level, [0..1 -, R]
+  HDRAIN =  -110.0 ! Mean drain base to correct for average groundwater level, [-10000..0 cm, R]
+  RIMLAY =   500.0 ! Vertical resistance of aquitard, [0..10000 d, R]
+ 
+* Specify whether a sine or a table are used to prescribe hydraulic head of deep aquifer:
+  SW3    = 1       ! 1 = Sine function,  2 = table
+ 
+* In case of sine function (SW3  = 1), specify:
+  AQAVE  =  -140.0 ! Average hydraulic head in underlaying aquifer, [-10000..1000 cm, R]
+  AQAMP  =    20.0 ! Amplitude hydraulic head sinus wave, [0..1000 cm, R]
+  AQTMAX =  120.0  ! First time of the year with maximum hydraulic head, [1..366 d, R]
+  AQPER  =  365.0  ! Period hydraulic head sinus wave, [1..366 d, I]
+ 
+* In case of table (SW3  = 2), specify date [dd-mmm-yyyy] and average hydraulic head
+* HAQUIF in underlaying aquifer [-10000..1000 cm, R]:
+ 
+        DATE3    HAQUIF           ! (maximum MABBC records)
+  01-jan-1980     -95.0
+  30-jun-1980    -110.0
+  23-dec-1980     -70.0
+* End of table
+ 
+* An extra groundwater flux can be specified which is added to above specified flux
+  SW4   = 1        ! 0 = no extra flux, 1 = include extra flux
+ 
+* If SW4 = 1, specify date [dd-mmm-yyyy] and bottom flux QBOT4 [-100..100 cm/d, R,
+* positive = upwards]:
+ 
+        DATE4     QBOT4           ! (maximum MABBC records)
+  01-jan-1980       1.0
+  30-jun-1980     -0.15
+  23-dec-1980       1.2
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* SWBOTB = 4     Calculate bottom flux as function of groundwater level
+ 
+* Specify coefficients of relation qbot = A exp (B*abs(groundwater level))
+  COFQHA =  0.1  ! Coefficient A, [-100..100 cm/d, R]
+  COFQHB =  0.5  ! Coefficient B  [-1..1 /cm, R]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* SWBOTB = 5     Prescribe soil water pressure head of bottom compartment
+ 
+* Specify DATE [dd-mmm-yyyy] and bottom compartment pressure head HBOT5
+* [-1.d10..1000 cm, R]:
+ 
+        DATE5     HBOT5           ! (maximum MABBC records)
+  01-jan-1980     -95.0
+  30-jun-1980    -110.0
+  23-dec-1980     -70.0
+* End of table
+**********************************************************************************
+ 
+ 
+*** HEAT FLOW SECTION ***
+ 
+**********************************************************************************
+* Part 1: Specify whether simulation includes heat flow
+ 
+  SWHEA  = 0 ! Switch for simulation of heat transport, [Y=1, N=0]
+**********************************************************************************
+ 
+**********************************************************************************
+* Part 2: Heat flow calculation method
+ 
+  SWCALT = 1     ! Switch for method: 1 = analytical method, 2 = numerical method
+**********************************************************************************
+ 
+**********************************************************************************
+* Analytical method
+ 
+* If SWCALT = 1 specify the following heat parameters:
+  TAMPLI = 10.0 ! Amplitude of annual temperature wave at soil surface, [0..50 C, R]
+  TMEAN  = 15.0 ! Mean annual temperature at soil surface, [5..30 C, R]
+  TIMREF = 90.0 ! Time in the year with top of sine temperature wave [1..366 d, R]
+  DDAMP  = 50.0 ! Damping depth of temperature wave in soil, [0..500 cm, R]
+**********************************************************************************
+ 
+**********************************************************************************
+* Numerical method
+ 
+* If SWCALT = 2 list initial temperature TSOIL [-20..40 C, R] as function of
+* soil depth ZH [-1d5..0 cm, R]:
+* When SWINCO = 3, dummy values can be present for ZH and TSOIL, because real values
+* are read from file INIFIL (see this file:  Soil Water section, Part 1)
+ 
+      ZH    TSOIL           ! (maximum MACP records)
+   -10.0     15.0
+   -40.0     12.0
+   -70.0     10.0
+   -95.0      9.0
+* End of table
+ 
+* If SWCALT = 2 specify for each soil type the soil texture (g/g mineral parts)
+* and the organic matter content (g/g dry soil):
+ 
+  ISOILLAY5  PSAND    PSILT    PCLAY    ORGMAT           ! (maximum MAHO records)
+     1        0.80     0.15     0.05     0.100
+     2        0.80     0.15     0.05     0.100
+     3        0.78     0.14     0.08     0.012
+* End of table
+**********************************************************************************
+ 
+ 
+*** SOLUTE SECTION ***
+ 
+**********************************************************************************
+* Part 1: Specify whether simulation includes solute transport
+ 
+  SWSOLU = 0 ! Switch for simulation of solute transport, [Y=1, N=0]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 2: Top boundary and initial condition
+ 
+  CPRE = 0.0    ! Solute concentration in precipitation, [1..100 mg/cm3, R]
+ 
+* List initial solute concentration CML [1..1000 mg/cm3, R] as function of soil depth ZC
+* [-10000..0 cm, R], max. MACP records:
+* When SWINCO=3, then dummy values must be present for ZC and CML, because real values
+* are read from file INIFIL (See this file:  SOIL WATER SECTION, part 1)
+      ZC       CML
+   -10.0       0.0
+   -95.0       0.0
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 3: Diffusion, dispersion, and solute uptake by roots
+ 
+  DDIF = 0.0    ! Molecular diffusion coefficient, [0..10 cm2/day, R]
+  LDIS = 5.0    ! Dispersion length, [0..100 cm, R]
+  TSCF = 0.0    ! Relative uptake of solutes by roots, [0..10 -, R]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 4: Adsorption
+ 
+  SWSP = 0      ! Switch, consider solute adsorption, [Y=1, N=0]
+ 
+* In case of adsorption (SWSP = 1), specify:
+  KF    = 1.0   ! Freundlich coefficient, [0..100 cm3/mg, R]
+  FREXP = 0.9   ! Freundlich exponent, [0..10 -, R]
+  CREF  = 1.0   ! Reference solute concentration for adsorption, [0..1000 mg/cm3, R]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 5: Decomposition
+ 
+  SWDC = 0      ! Switch, consideration of solute decomposition, [Y=1, N=0]
+ 
+* In case of solute decomposition (SWDC = 1), specify:
+  DECPOT = 0.0  ! Potential decomposition rate, [0..10 /d, R]
+  GAMPAR = 0.0  ! Factor reduction decomposition due to temperature, [0..0.5 /C, R]
+  RTHETA = 0.3  ! Minimum water content for potential decomposition, [0..0.4 cm3/cm3, R]
+  BEXP   = 0.7  ! Exponent in reduction decomposition due to dryness, [0..2 -, R]
+ 
+* List the reduction of pot. decomposition for each soil type, [0..1 -, R]:
+ 
+  ISOILLAY6  FDEPTH           ! (maximum MAHO records)
+       1       1.00
+       2       0.65
+* End of table
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 6: Transfer between mobile and immobile water volumes
+ 
+  SWPREF = 0     ! Switch, consider mobile-immobile water volumes, [Y=1, N=0]
+ 
+* If SWPREF = 1, specify:
+  KMOBIL = 0.3   ! Solute transfer coefficient between mobile-immobile parts, [0..100 /d, R]
+**********************************************************************************
+ 
+ 
+**********************************************************************************
+* Part 7: Solute residence in the saturated zone
+ 
+  SWBR = 0       ! Switch, consider mixed reservoir of saturated zone [Y=1, N=0]
+ 
+* Without mixed reservoir (SWBR = 0), specify:
+  CDRAIN = 0.1   ! solute concentration in groundwater, [0..100 mg/cm3, R]
+ 
+* In case of mixed reservoir (SWBR = 1), specify:
+  DAQUIF = 110.0 ! Thickness saturated part of aquifer, [0..10000 cm, R]
+  POROS  = 0.4   ! Porosity of aquifer, [0..0.6, R]
+  KFSAT  = 0.2   ! Linear adsorption coefficient in aquifer, [0..100 cm3/mg, R]
+  DECSAT = 1.0   ! Decomposition rate in aquifer, [0..10 /d, R]
+  CDRAINI = 0.2  ! Initial solute concentration in groundwater, [0..100 mg/cm3, R]
+**********************************************************************************
+ 
+* End of the main input file .SWP!
+ 
+ Data file   .\WEATHER\BORKHAR.005 with  11 variables parsed by RDINDX
+ Data file   .\CROPS\MAIZES_GHIAM.CRP with  60 variables parsed by RDINDX
+ Contents of SWAP.SWP recovered from TMP file
+ Contents of .\WEATHER\BORKHAR.005 recovered from TMP file
+ Contents of .\CROPS\MAIZES_GHIAM.CRP recovered from TMP file
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 13-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+Warning from module Headcalc :  No convergence was reached of Richards equation at 14-Jul-2005. SWAP did continue!                                                                                                                                                                                          
+ ERROR in timer: The maximum number of timesteps for a day is exceeded at daynumber 195. Check input for numerical solution of Richards equation
