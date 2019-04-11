@@ -1,0 +1,40 @@
+T01: parameter a and b (2xR,*) for the radiation method
+0.382   -19.94
+T03: We (R,*) - monthly compensation factor for the radiation method
+0.57	0.57	0.63	0.69	0.745	0.79	0.825	0.825	0.815	0.77	0.71	0.62
+T05: Nsol (R,*) - monthly mean of the maximum number of daily hours of sunshine
+10.4	11.1	12	12.9	13.6	14	13.9	13.2	12.4	11.5	10.6	10.2
+T07: n (I,*) - number of days for each month
+31  28  31  30  31  30  31  31  30  31  30  31  
+T09: NTer (I,*) - number of temperature stations
+1                
+T11: CoordT (2xR,*), alt (R,*) - coordinates and elevations of each temperature station
+140 63 603 
+T13: nskip (I,*) - number of temperature data to be skipped 
+0
+T15: step and temperature [°C] at the temperature station 
+T16: xpas (I,*), gradi (R,*)
+1	9.5
+2	9.5
+3	9.5
+4	9.5
+5	9.5
+6	9.5
+7	9.5
+8	9.5
+9	9.5
+10	9.5
+11	9.5
+12	9.5
+13	9.5
+14	9.5
+15	9.5
+16	9.5
+17	9.5
+18	9.5
+19	9.5
+20	9.5
+21	9.5
+22	9.5
+23	9.5
+24	9.5

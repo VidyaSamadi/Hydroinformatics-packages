@@ -1,0 +1,79 @@
+A01: General title for the simulation
+Samoggia River basin
+' file of the observed discharges'
+obs94567.txt
+'Number of data to be skipped'
+0
+'Number of discharge data to be read'
+24
+A03: gg,mm,aaaa (3I,*) - starting date of the simulation
+31 1  1993
+A05: Digital Elevation Model (a30) - input file
+demsamocorr.in                
+A07: NOss (I,*) - number of rainfall data to be read (length of the simulation)
+24
+A09: StepPio (I,*) - step of observation of the rainfall data [s]
+3600
+A11: idim,jdim (2xI,*) - dimension of the DEM (Number of rows,Number of columns)
+205 207
+A13: DX,DY (2xI,*) - size of the DEM cell [m]
+250 250
+A15: DT (2xI,*)- time step of the simulation [s]
+3600
+A17: A0 (R,*) - constant critical support area [km^2]
+0.5
+A19: Wv (R,*) - Channel width/height ratio for the hillslope
+600
+A21: NHRou (I,*) - Mode for hillslope roughness (I,*) - (1=constant, >1=number of the classes)
+3
+A23: Ksv (NHRou x R,*) - Strickler roughness for hillslope (m^(1/3)*s-1) 
+1.0 0.5 5.0
+A25: file of the distribution of roughness classes for the hillslope
+ClassHillRough.in
+A27: Wr,Ksr0,Ksr1 (3xR,*) - Channel width/height ratio and max and min Strickler (m^(1/3)*s-1) for river network
+15  12  40
+A29: Ksat (R,*) - saturated hydraulic conductivity [m/s]
+0.01 
+A31: Bp (R,*) - width of the rectangular cross section of the sub surface flow [m] 
+0.5
+A33: Hs (R,*) - parameter for the infiltration reservoir [s]  
+79095.
+A35: H (R,*) - parameter for the infiltration reservoir 
+0.08
+A37: Cint (R,*) - parameter for the interception reservoir
+0.3 
+A39: Ichi,Jchi (2xI,*)- coordinates of the catchment outlet
+140 68
+A41: risp1 (I,*)- single event simulation (0=normal catchment, 1=impervious catchment)
+0
+A43: risp2 (I,*) - interpolation of the precipitation (1=Thiessen, 2=inverse distance)
+2
+A45: file of the slope pointer (a30) - output file
+SlopePointer.out
+A47: npf (I,*) - number of cells whose elevation has not to be raised
+2
+A49: npfi,npfj (2xI,*) - Coordinates of the above mentioned points
+140 68
+115 123
+A51: file of the modified DEM [m] (a30) - output file
+ModifiedDEM.out 
+A53: file of the contributing area (a30) - output file 
+ContributingArea.out 
+A55: file of the link property (a30) - output file
+LinkProperties.out  
+A57: file of the Curve Number (a30) - input file
+cnsamo92.in          
+A59: file of the observed rain (a30) - input file
+rain94567.in
+A61: file of the observed temperature (a30) - input file
+tem94567.in
+A63: Nmis (I,*) - number of cross sections where simulated discharge is displayed (manual cal.) or to be considered for automatic cal.
+1
+A65: outI,outJ (2xI,*) - coordinates of the output cross sections
+140 68
+A67: file of the simulated discharge (Nmis x a30) - output file (only for manual calibration)
+outlet.out    
+A69: opzst1 (I,*) - print option 1=total Q, 2=surface and total Q (only for manual calibration)
+1                              
+A72: opzst2 (I,*) - print option 1=every StepPio, 2=annual maximum (only total Q) (only for manual calibration)  
+1
