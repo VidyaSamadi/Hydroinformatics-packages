@@ -15,4 +15,4 @@ for j=1: nvar
     P =(idx'-ran(:,j))/nsample;
     %
     s(:,j) = xmin(j) + P.* (xmax(j)-xmin(j));
-end
+end 
