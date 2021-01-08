@@ -1,5 +1,5 @@
 # create vectors of names to be assigned to each folder and to each batch file. A batch file and corresponding folder is needed 
-#for adjustment parameters and running simulations within each chain.
+#for adjustment parameters and running simulations within each chain. See Joseph et al., 2013. 
 folder_name<-c("LREW1","LREW2","LREW3","LREW4","LREW5","LREW6","LREW7","LREW8")
 bfname<-c("runLREW1.bat","runLREW2.bat","runLREW3.bat","runLREW4.bat",
 "runLREW5.bat","runLREW6.bat","runLREW7.bat","runLREW8.bat")
