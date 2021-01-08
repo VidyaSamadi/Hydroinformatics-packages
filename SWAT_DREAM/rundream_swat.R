@@ -1,5 +1,5 @@
 #
-# R script for application of DREAM to SWAT
+# R script for application of DREAM to SWAT applied to the Waccamaw watershed, the Carolinas.
 #
 #
 #
